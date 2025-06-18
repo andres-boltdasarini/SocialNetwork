@@ -12,7 +12,7 @@ namespace SocialNetwork
 
             while (true)
             {
-                Console.ReadLine();
+
                 Console.WriteLine("Для регистрации пользователя введите имя");
                 string firstname = Console.ReadLine();
                 Console.WriteLine("Фамилию");
@@ -33,15 +33,19 @@ namespace SocialNetwork
                 try
                 {
                     userService.Register(userRegistrationData);
-                    Console.WriteLine("Регистрации прошли успешно");
+                    Console.WriteLine("Регистрация прошла успешно");
                 }
-                catch (ArgumentNullException)
+                catch (ArgumentNullException ex)
                 {
-                    Console.WriteLine("введите корректное значение");
+                    Console.WriteLine(ex.Message);
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Произоцшла ошибка при регистрации");
+                    Console.WriteLine($"Произошла ошибка при регистрации: {ex.Message}");
                 }
                 Console.ReadLine();
             }

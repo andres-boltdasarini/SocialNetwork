@@ -1,6 +1,10 @@
-﻿public class FriendEntity
+﻿namespace SocialNetwork.DAL.Entities
 {
-    public int id { get; set; }
-    public int user_id { get; set; }
-    public int friend_id { get; set; }
+    public class FriendEntity
+    {
+        public int id { get; set; }
+        public int user_id { get; set; }
+        public int friend_id { get; set; }
+    }
 }
+

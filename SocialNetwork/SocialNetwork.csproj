@@ -8,17 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="BLL\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="DAL\DB\social_network_bd.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

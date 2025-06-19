@@ -3,21 +3,17 @@
     public class Message
     {
         public int Id { get; }
-        public string Content { get; set; }
-        public int Sender_Id { get; }
-        public int Recipient_Id { get; set; }
+        public string Content { get; }
+        public string SenderEmail { get; } 
+        public string RecipientEmail { get; } 
 
 
-        public Message(
-            int id,
-            string content,
-            int sender_id,
-            int recipient_id)
+        public Message(int id, string content, string senderEmail, string recipientEmail)
         {
-            this.Id = id;
-            this.Content = content;
-            this.Sender_Id = sender_id;
-            this.Recipient_Id = recipient_id;
+            Id = id;
+            Content = content;
+            SenderEmail = senderEmail;
+            RecipientEmail = recipientEmail;
         }
     }
 }

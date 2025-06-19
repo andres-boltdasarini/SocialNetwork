@@ -1,4 +1,6 @@
-﻿namespace SocialNetwork.BLL.Models
+﻿using System.Collections.Generic;
+
+namespace SocialNetwork.BLL.Models
 {
     public class User
     {
@@ -11,6 +13,11 @@
         public string FavoriteMovie { get; set; }
         public string FavoriteBook { get; set; }
 
+        public IEnumerable<Message> IncomingMessages { get; }
+        public IEnumerable<Message> OutcomingMessages { get; }
+
+        public IEnumerable<User> Friends { get; }
+
         public User(
             int id,
             string firstName,
@@ -19,7 +26,11 @@
             string email,
             string photo,
             string favoriteMovie,
-            string favoriteBook)
+            string favoriteBook,
+            IEnumerable<Message> incomingMessages,
+            IEnumerable<Message> outcomingMessages
+            // IEnumerable<User> friends
+            )
         {
             this.Id = id;
             this.FirstName = firstName;
@@ -29,6 +40,9 @@
             this.Photo = photo;
             this.FavoriteMovie = favoriteMovie;
             this.FavoriteBook = favoriteBook;
+            this.IncomingMessages = incomingMessages;
+            this.OutcomingMessages = outcomingMessages;
+           // this.Friends = friends;
         }
     }
 }

@@ -27,12 +27,12 @@ namespace SocialNetwork
             messageService = new MessageService();
 
             mainView = new MainView();
-            registrationView = new RegistrationView();
-            authenticationView = new AuthenticationView();
-            userMenuView = new UserMenuView();
+            registrationView = new RegistrationView(userService);
+            authenticationView = new AuthenticationView(userService);
+            userMenuView = new UserMenuView(userService);
             userInfoView = new UserInfoView();
-            userDataUpdateView = new UserDataUpdateView();
-            messageSendingView = new MessageSendingView();
+            userDataUpdateView = new UserDataUpdateView(userService);
+            messageSendingView = new MessageSendingView(messageService, userService);
             userIncomingMessageView = new UserIncomingMessageView();
             userOutcomingMessageView = new UserOutcomingMessageView();
 

@@ -33,7 +33,7 @@ namespace SocialNetwork.PLL.Views
                 SuccessMessage.Show("Вы успешно вошли");
                 SuccessMessage.Show("Добро пожаловать " + user.FirstName);
 
-                Program.userMenuView.Show();
+                Program.userMenuView.Show(user);
             }
             catch (WrongPasswordException ex)
             {

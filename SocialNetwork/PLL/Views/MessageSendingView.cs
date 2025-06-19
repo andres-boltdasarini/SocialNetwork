@@ -37,7 +37,7 @@ namespace SocialNetwork.PLL.Views
 
                 SuccessMessage.Show("Сообщение успешно отправлено");
 
-                user = userService.FindById(user.Id);
+                user = userService.FindById(user.Id);///////
             }
             catch (UserNotFoundException)
             {

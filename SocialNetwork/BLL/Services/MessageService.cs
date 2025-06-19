@@ -40,7 +40,7 @@ namespace SocialNetwork.BLL.Services
         {
             var messages = new List<Message>();
 
-            messageRepository.FindByRecipientId(senderId).ToList().ForEach(m =>
+            messageRepository.FindBySenderId(senderId).ToList().ForEach(m =>
             {
                 var senderUserEntity = userRepository.FindById(m.sender_id);
                 var recipientUserEntity = userRepository.FindById(m.recipient_id);

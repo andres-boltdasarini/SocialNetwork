@@ -21,7 +21,7 @@ namespace SocialNetwork.PLL.Views
 
             incomingMessages.ToList().ForEach(message =>
             {
-                Console.WriteLine("От кого: {0}. Текст сообщения: {1}", message.SenderEmail, message.Content);
+                Console.WriteLine("От кого: {0}. Текст сообщения: {1}", message.SenderEmail, message.Content); //Мб нужен доллар
             });
         }
     }

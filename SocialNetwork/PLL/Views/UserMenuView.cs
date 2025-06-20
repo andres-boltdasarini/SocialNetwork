@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SocialNetwork.BLL.Services;
+﻿using SocialNetwork.BLL.Services;
 using SocialNetwork.BLL.Models;
 
 namespace SocialNetwork.PLL.Views
@@ -19,6 +14,8 @@ namespace SocialNetwork.PLL.Views
         {
             while (true)
             {
+                Console.WriteLine();
+                Program.userFriendView.Show(user.Friends);
                 Console.WriteLine("Входящие сообщения: {0}", user.IncomingMessages.Count());
                 Console.WriteLine("Исходящие сообщения: {0}", user.OutcomingMessages.Count());
 
@@ -56,6 +53,7 @@ namespace SocialNetwork.PLL.Views
                     case "4":
                         {
                             Program.messageSendingView.Show(user);
+                            user = userService.FindById(user.Id);
                             break;
                         }
                     case "5":

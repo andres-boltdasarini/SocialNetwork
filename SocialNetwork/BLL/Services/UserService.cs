@@ -2,10 +2,7 @@
 using SocialNetwork.BLL.Models;
 using SocialNetwork.DAL.Entities;
 using SocialNetwork.DAL.Repositories;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace SocialNetwork.BLL.Services
 {
@@ -24,26 +21,23 @@ namespace SocialNetwork.BLL.Services
 
         public void Register(UserRegistrationData userRegistrationData)
         {
-            if (String.IsNullOrEmpty(userRegistrationData.FirstName))
-                throw new ArgumentNullException();
-
-            if (String.IsNullOrEmpty(userRegistrationData.LastName))
-                throw new ArgumentNullException();
-
-            if (String.IsNullOrEmpty(userRegistrationData.Password))
-                throw new ArgumentNullException();
-
-            if (String.IsNullOrEmpty(userRegistrationData.Email))
-                throw new ArgumentNullException();
+            if (string.IsNullOrEmpty(userRegistrationData.FirstName))
+                throw new Exception("Имя не может быть пустым");
+            if (string.IsNullOrEmpty(userRegistrationData.LastName)) 
+                throw new Exception("Фамилия не может быть пустой");
+            if (string.IsNullOrEmpty(userRegistrationData.Password))
+                throw new Exception("Пароль не может быть пустым");
+            if (string.IsNullOrEmpty(userRegistrationData.Email))
+                throw new Exception("Email не может быть пустым");
 
             if (userRegistrationData.Password.Length < 8)
-                throw new ArgumentNullException();
+                throw new Exception("Пароль должен содержать не менее 8 символов");
 
             if (!new EmailAddressAttribute().IsValid(userRegistrationData.Email))
-                throw new ArgumentNullException();
+                throw new Exception("Некорректный формат email");
 
             if (userRepository.FindByEmail(userRegistrationData.Email) != null)
-                throw new ArgumentNullException();
+                throw new Exception("Пользователь с таким email уже существует");
 
             var userEntity = new UserEntity()
             {
@@ -55,7 +49,6 @@ namespace SocialNetwork.BLL.Services
 
             if (this.userRepository.Create(userEntity) == 0)
                 throw new Exception();
-
         }
 
         public User Authenticate(UserAuthenticationData userAuthenticationData)
@@ -68,15 +61,6 @@ namespace SocialNetwork.BLL.Services
 
             return ConstructUserModel(findUserEntity);
         }
-
-        public User FindByEmail(string email)
-        {
-            var findUserEntity = userRepository.FindByEmail(email);
-            if (findUserEntity is null) throw new UserNotFoundException();
-
-            return ConstructUserModel(findUserEntity);
-        }
-
         public User FindById(int id)
         {
             var findUserEntity = userRepository.FindById(id);
@@ -119,7 +103,6 @@ namespace SocialNetwork.BLL.Services
                 user_id = userAddingFriendData.UserId,
                 friend_id = findUserEntity.id
             };
-
             if (this.friendRepository.Create(friendEntity) == 0)
                 throw new Exception();
         }

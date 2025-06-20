@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SocialNetwork.BLL.Exceptions;
+﻿using SocialNetwork.BLL.Exceptions;
 using SocialNetwork.BLL.Models;
 using SocialNetwork.BLL.Services;
 using SocialNetwork.PLL.Helpers;
@@ -23,6 +18,7 @@ namespace SocialNetwork.PLL.Views
         {
             var messageSendingData = new MessageSendingData();
 
+            Console.WriteLine();
             Console.Write("Ведите почтовый адрес получателя: ");
             messageSendingData.RecipientEmail = Console.ReadLine();
 

@@ -2,9 +2,7 @@
 using SocialNetwork.BLL.Models;
 using SocialNetwork.BLL.Services;
 using SocialNetwork.PLL.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace SocialNetwork.PLL.Views
 {
@@ -21,12 +19,13 @@ namespace SocialNetwork.PLL.Views
             {
                 var userAddingFriendData = new UserAddingFriendData();
 
+                Console.WriteLine();
                 Console.WriteLine("Введите почтовый адрес пользователя которого хотите добавить в друзья: ");
 
                 userAddingFriendData.FriendEmail = Console.ReadLine();
                 userAddingFriendData.UserId = user.Id;
 
-                //this.userService.AddFriend(userAddingFriendData);
+                this.userService.AddFriend(userAddingFriendData);
 
                 SuccessMessage.Show("Вы успешно добавили пользователя в друзья!");
             }

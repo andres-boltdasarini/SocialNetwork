@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace SocialNetwork.BLL.Models
 {
     public class User

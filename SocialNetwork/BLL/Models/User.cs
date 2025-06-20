@@ -28,8 +28,9 @@ namespace SocialNetwork.BLL.Models
             string favoriteMovie,
             string favoriteBook,
             IEnumerable<Message> incomingMessages,
-            IEnumerable<Message> outcomingMessages
-            // IEnumerable<User> friends
+            IEnumerable<Message> outcomingMessages,
+            //IEnumerable<User> friends
+            IEnumerable<User> friends
             )
         {
             this.Id = id;
@@ -42,7 +43,7 @@ namespace SocialNetwork.BLL.Models
             this.FavoriteBook = favoriteBook;
             this.IncomingMessages = incomingMessages;
             this.OutcomingMessages = outcomingMessages;
-           // this.Friends = friends;
+            this.Friends = friends;
         }
     }
 }

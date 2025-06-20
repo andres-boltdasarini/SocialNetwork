@@ -29,7 +29,6 @@ namespace SocialNetwork.BLL.Models
             string favoriteBook,
             IEnumerable<Message> incomingMessages,
             IEnumerable<Message> outcomingMessages,
-            //IEnumerable<User> friends
             IEnumerable<User> friends
             )
         {

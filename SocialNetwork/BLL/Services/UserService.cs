@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SocialNetwork.BLL.Exceptions;
+﻿using SocialNetwork.BLL.Exceptions;
 using SocialNetwork.BLL.Models;
 using SocialNetwork.DAL.Entities;
 using SocialNetwork.DAL.Repositories;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace SocialNetwork.BLL.Services
 {
@@ -15,35 +13,37 @@ namespace SocialNetwork.BLL.Services
     {
         MessageService messageService;
         IUserRepository userRepository;
-        //IFriendRepository friendRepository;
-        FriendService friendService;
+        IFriendRepository friendRepository;
 
         public UserService()
         {
             userRepository = new UserRepository();
-            //friendRepository = new FriendRepository();
+            friendRepository = new FriendRepository();
             messageService = new MessageService();
-            friendService = new FriendService();
         }
+
         public void Register(UserRegistrationData userRegistrationData)
         {
-            if (string.IsNullOrEmpty(userRegistrationData.FirstName))
-                throw new ArgumentNullException("Имя не может быть пустым");
-            if (string.IsNullOrEmpty(userRegistrationData.LastName))
-                throw new ArgumentNullException("Фамилия не может быть пустой");
-            if (string.IsNullOrEmpty(userRegistrationData.Password))
-                throw new ArgumentNullException("Пароль не может быть пустым");
-            if (string.IsNullOrEmpty(userRegistrationData.Email))
-                throw new ArgumentNullException("Email не может быть пустым");
+            if (String.IsNullOrEmpty(userRegistrationData.FirstName))
+                throw new ArgumentNullException();
+
+            if (String.IsNullOrEmpty(userRegistrationData.LastName))
+                throw new ArgumentNullException();
+
+            if (String.IsNullOrEmpty(userRegistrationData.Password))
+                throw new ArgumentNullException();
+
+            if (String.IsNullOrEmpty(userRegistrationData.Email))
+                throw new ArgumentNullException();
 
             if (userRegistrationData.Password.Length < 8)
-                throw new ArgumentException("Пароль должен содержать не менее 8 символов");
+                throw new ArgumentNullException();
 
             if (!new EmailAddressAttribute().IsValid(userRegistrationData.Email))
-                throw new ArgumentException("Некорректный формат email");
+                throw new ArgumentNullException();
 
             if (userRepository.FindByEmail(userRegistrationData.Email) != null)
-                throw new ArgumentException("Пользователь с таким email уже существует");
+                throw new ArgumentNullException();
 
             var userEntity = new UserEntity()
             {
@@ -54,8 +54,10 @@ namespace SocialNetwork.BLL.Services
             };
 
             if (this.userRepository.Create(userEntity) == 0)
-                throw new Exception("Ошибка при создании пользователя");
+                throw new Exception();
+
         }
+
         public User Authenticate(UserAuthenticationData userAuthenticationData)
         {
             var findUserEntity = userRepository.FindByEmail(userAuthenticationData.Email);
@@ -74,6 +76,7 @@ namespace SocialNetwork.BLL.Services
 
             return ConstructUserModel(findUserEntity);
         }
+
         public User FindById(int id)
         {
             var findUserEntity = userRepository.FindById(id);
@@ -100,13 +103,32 @@ namespace SocialNetwork.BLL.Services
                 throw new Exception();
         }
 
+        public IEnumerable<User> GetFriendsByUserId(int userId)
+        {
+            return friendRepository.FindAllByUserId(userId)
+                    .Select(friendsEntity => FindById(friendsEntity.friend_id));
+        }
 
+        public void AddFriend(UserAddingFriendData userAddingFriendData)
+        {
+            var findUserEntity = userRepository.FindByEmail(userAddingFriendData.FriendEmail);
+            if (findUserEntity is null) throw new UserNotFoundException();
+
+            var friendEntity = new FriendEntity()
+            {
+                user_id = userAddingFriendData.UserId,
+                friend_id = findUserEntity.id
+            };
+
+            if (this.friendRepository.Create(friendEntity) == 0)
+                throw new Exception();
+        }
 
         private User ConstructUserModel(UserEntity userEntity)
         {
             var incomingMessages = messageService.GetIncomingMessagesByUserId(userEntity.id);
             var outgoingMessages = messageService.GetOutcomingMessagesByUserId(userEntity.id);
-            var friends = friendService.GetFriendsByUserId(userEntity.id);
+            var friends = GetFriendsByUserId(userEntity.id);
 
             return new User(userEntity.id,
                           userEntity.firstname,

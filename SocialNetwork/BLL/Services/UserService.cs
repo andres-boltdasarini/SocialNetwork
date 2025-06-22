@@ -12,15 +12,7 @@ namespace SocialNetwork.BLL.Services
         private readonly IFriendRepository friendRepository;
         private readonly IMessageService messageService;
 
-        // Старый конструктор для совместимости
-        public UserService()
-        {
-            userRepository = new UserRepository();
-            friendRepository = new FriendRepository();
-            messageService = new MessageService();
-        }
-
-        // Новый конструктор с внедрением зависимостей
+ 
         public UserService(
             IUserRepository userRepository,
             IFriendRepository friendRepository,

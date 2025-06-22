@@ -5,13 +5,7 @@ using SocialNetwork.DAL.Repositories;
 
 namespace SocialNetwork.BLL.Services
 {
-    public interface IMessageService
-    {
-        IEnumerable<Message> GetIncomingMessagesByUserId(int recipientId);
-        IEnumerable<Message> GetOutcomingMessagesByUserId(int senderId);
-        void SendMessage(MessageSendingData messageSendingData);
-    }
-    public class MessageService : IMessageService
+    public class MessageService
     {
         IMessageRepository messageRepository;
         IUserRepository userRepository;

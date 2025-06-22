@@ -8,19 +8,20 @@ namespace SocialNetwork.BLL.Services
 {
     public class UserService
     {
-        private readonly IUserRepository userRepository;
-        private readonly IFriendRepository friendRepository;
-        private readonly IMessageService messageService;
+        MessageService messageService;
+        IUserRepository userRepository;
+        IFriendRepository friendRepository;
 
- 
-        public UserService(
-            IUserRepository userRepository,
-            IFriendRepository friendRepository,
-            IMessageService messageService)
+        public UserService()
         {
-            this.userRepository = userRepository;
-            this.friendRepository = friendRepository;
-            this.messageService = messageService;
+            userRepository = new UserRepository();
+            friendRepository = new FriendRepository();
+            messageService = new MessageService();
+        }
+
+        public void SetUserRepository(IUserRepository newuserRepository)
+        {
+            userRepository = newuserRepository;
         }
 
         public void Register(UserRegistrationData userRegistrationData)
@@ -41,7 +42,7 @@ namespace SocialNetwork.BLL.Services
                 throw new Exception("Некорректный формат email");
 
             if (userRepository.FindByEmail(userRegistrationData.Email) != null)
-                throw new Exception("Пользователь с таким email уже существует");
+                throw new Exception("A user with this email already exists.");
 
             var userEntity = new UserEntity()
             {

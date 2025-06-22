@@ -1,4 +1,4 @@
-using Moq;
+п»їusing Moq;
 using SocialNetwork.BLL.Models;
 using SocialNetwork.BLL.Services;
 using SocialNetwork.DAL.Entities;
@@ -12,11 +12,9 @@ public class UserServiceTests
     {
         // Arrange
         var mockUserRepo = new Mock<IUserRepository>();
-        var userService = new UserService(
-            mockUserRepo.Object,
-            Mock.Of<IFriendRepository>(),    // Упрощённый мок
-            Mock.Of<IMessageService>()        // Упрощённый мок
-        );
+        var userService = new UserService();
+
+        userService.SetUserRepository(mockUserRepo.Object);
 
         var userData = new UserRegistrationData
         {
@@ -26,15 +24,15 @@ public class UserServiceTests
             LastName = "Doe"
         };
 
-        // Настройка: при поиске email возвращаем существующего пользователя
         mockUserRepo
             .Setup(r => r.FindByEmail("test@example.com"))
-            .Returns(new UserEntity()); // Не-null объект = пользователь существует
+            .Returns(new UserEntity());
 
-        // Act & Assert
-        var ex = Assert.Throws<Exception>(() => userService.Register(userData));
+        mockUserRepo.Object.FindByEmail("test@example.com");
+        // РїС‹С‚Р°РµС‚СЃСЏ РІС‹Р·РІР°С‚СЊ С„СЂР°РіРјРµРЅС‚ РєРѕРґР°, РїСЂРµРґСЃС‚Р°РІР»РµРЅРЅС‹Р№ РєР°Рє РґРµР»РµРіР°С‚, С‡С‚РѕР±С‹ РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ РѕРЅ РІС‹РґР°РµС‚ РѕРїСЂРµРґРµР»РµРЅРЅРѕРµ РёСЃРєР»СЋС‡РµРЅРёРµ
+        var ex =  Assert.Throws<Exception>(() => userService.Register(userData));
 
-        // Проверка сообщения исключения
-        Assert.AreEqual("Пользователь с таким email уже существует", ex.Message);
+        // РџСЂРѕРІРµСЂРєР° СЃРѕРѕР±С‰РµРЅРёСЏ
+         Assert.AreEqual("A user with this email already exists.", ex.Message);
     }
 }

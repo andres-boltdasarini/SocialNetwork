@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System.Reflection;
+using Moq;
 using SocialNetwork.BLL.Models;
 using SocialNetwork.BLL.Services;
 using SocialNetwork.DAL.Entities;
@@ -12,9 +13,15 @@ public class UserServiceTests
     {
         // Arrange
         var mockUserRepo = new Mock<IUserRepository>();
-        var userService = new UserService();
+        var userService = new UserService(); // Создаем реальный экземпляр
 
-        userService.SetUserRepository(mockUserRepo.Object);
+        // Получаем поле userRepository через рефлексию
+        var field = typeof(UserService).GetField(
+            "userRepository",
+            BindingFlags.NonPublic | BindingFlags.Instance
+        );
+        // Подменяем репозиторий на мок
+        field.SetValue(userService, mockUserRepo.Object);
 
         var userData = new UserRegistrationData
         {
@@ -24,15 +31,13 @@ public class UserServiceTests
             LastName = "Doe"
         };
 
+        // Настраиваем мок: при вызове FindByEmail возвращаем сущность (как будто email уже занят)
         mockUserRepo
             .Setup(r => r.FindByEmail("test@example.com"))
             .Returns(new UserEntity());
 
-        mockUserRepo.Object.FindByEmail("test@example.com");
-        // пытается вызвать фрагмент кода, представленный как делегат, чтобы проверить, что он выдает определенное исключение
-        var ex =  Assert.Throws<Exception>(() => userService.Register(userData));
-
-        // Проверка сообщения
-         Assert.AreEqual("A user with this email already exists.", ex.Message);
+        // Act & Assert
+        var ex = Assert.Throws<Exception>(() => userService.Register(userData));
+        Assert.AreEqual("A user with this email already exists.", ex.Message);
     }
 }

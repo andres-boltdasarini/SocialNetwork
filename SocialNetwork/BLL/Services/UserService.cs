@@ -19,10 +19,7 @@ namespace SocialNetwork.BLL.Services
             messageService = new MessageService();
         }
 
-        public void SetUserRepository(IUserRepository newuserRepository)
-        {
-            userRepository = newuserRepository;
-        }
+
 
         public void Register(UserRegistrationData userRegistrationData)
         {
